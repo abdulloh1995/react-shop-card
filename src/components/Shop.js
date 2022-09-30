@@ -4,6 +4,7 @@ import Loader from "./Loader";
 import GoodList from "./GoodList";
 import Cart from "./Cart";
 import BasketList from "./BasketList";
+import {toast} from "react-toastify";
 
 const Shop = () => {
 
@@ -36,11 +37,50 @@ const Shop = () => {
             setOrder(newOrder)
         }
 
+        toast.success('Goods added to basket successfully!')
 
     }
 
     const handleBasketShow = () => {
         setIsBasketShow(!isBasketShow)
+    }
+
+    const removeFromBasket = (itemId) => {
+        const newOrder = order.filter(item => item.id !== itemId)
+        setOrder(newOrder)
+        toast.error('Goods deleted from basket successfully!')
+    }
+
+    const incrementQuantity = (itemId) => {
+        const newOrder = order.map(el => {
+            if (el.id === itemId) {
+                const newQuantity = el.quantity + 1
+                return {
+                    ...el,
+                    quantity: newQuantity
+                }
+            } else {
+                return el
+            }
+        })
+
+        setOrder(newOrder)
+    }
+
+    const decrementQuantity = (itemId) => {
+        const newOrder = order.map(el => {
+            if (el.id === itemId) {
+                const newQuantity = el.quantity - 1
+                return {
+                    ...el,
+                    quantity: newQuantity >= 0 ? newQuantity : 0
+                }
+            } else {
+                return el
+            }
+        })
+
+        setOrder(newOrder)
     }
 
     useEffect(() => {
@@ -59,7 +99,13 @@ const Shop = () => {
         <div className="container content">
             <Cart quantity={order.length} handleBasketShow={handleBasketShow}/>
             {loading ? <Loader/> : <GoodList goods={goods} addToBasket={addToBasket} />}
-            {isBasketShow && <BasketList order={order}handleBasketShow={handleBasketShow}/>}
+            {isBasketShow && <BasketList
+                order={order}
+                handleBasketShow={handleBasketShow}
+                removeFromBasket={removeFromBasket}
+                incrementQuantity={incrementQuantity}
+                decrementQuantity={decrementQuantity}
+            />}
         </div>
     );
 };

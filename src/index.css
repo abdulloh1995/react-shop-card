@@ -31,6 +31,16 @@ nav {
   padding: 1rem;
 }
 
+.bsk {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, .5);
+  overflow: hidden;
+}
+
 .basket-list {
   position: fixed;
   top: 50%;
@@ -40,6 +50,9 @@ nav {
   width: 50rem;
   max-width: 95%;
   box-shadow: 0 6px 15px 0 rgba(0, 0, 0, .5);
+  animation: show .5s ease-in-out;
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 .basket-close {
@@ -58,6 +71,29 @@ nav {
 .basket-item {
   display: flex;
   align-items: center;
+}
+
+.bsk-header {
+  /*position: absolute;*/
+}
+
+.btn-inc {
+  cursor: pointer;
+  color: #fff;
+}
+
+.btn-dec {
+  cursor: pointer;
+  color: blue;
+}
+
+.btn_click {
+  margin-left: 10px;
+}
+
+@keyframes show {
+  from{top: 20%; opacity: 0}
+  to{top: 50%; opacity: 1}
 }
 
 @media (min-width: 767px) {
